@@ -1,0 +1,15 @@
+package com.erw.randomrestaurant.database;
+
+import androidx.room.Embedded;
+import androidx.room.Relation;
+
+import java.util.List;
+
+public class RestaurantListWRestaurants {
+    @Embedded public RestaurantList lsit;
+    @Relation(
+            parentColumn = "list_id",
+            entityColumn = "list_id"
+    )
+    public List<Restaurant> restaurants;
+}
