@@ -4,14 +4,16 @@ import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.annotation.NonNull;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
+import androidx.sqlite.db.SupportSQLiteDatabase;
 
 
 @Database(entities = {RestaurantList.class, Restaurant.class}, version = 1, exportSchema = false)
-@TypeConverters(com.erw.android.exercisehistory.database.DateConverter.class)
+@TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
@@ -33,9 +35,9 @@ public abstract class AppDatabase extends RoomDatabase {
         return sInstance;
     }
 
-    public abstract ExerciseHistoryDao getExerciseHistoryDao();
+    public abstract RestaurantListDao getRestaurantListDao();
 
-    public abstract ExerciseNameDao getExerciseNameDao();
+    public abstract RestaurantDao getRestaurantDao();
 
     private static RoomDatabase.Callback sRoomDatabaseCallback =
             new RoomDatabase.Callback(){
@@ -49,18 +51,22 @@ public abstract class AppDatabase extends RoomDatabase {
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
 
-        private final ExerciseNameDao mDao;
+        private final RestaurantDao restaurantDao;
+        private final RestaurantListDao listDao;
 
         PopulateDbAsync(AppDatabase db) {
-            mDao = db.getExerciseNameDao();
+            restaurantDao = db.getRestaurantDao();
+            listDao = db.getRestaurantListDao();
         }
 
         @Override
         protected Void doInBackground(final Void... params) {
-            ExerciseName name = new ExerciseName("Push Ups");
-            mDao.insert(name);
-            name = new ExerciseName("Sit Ups");
-            mDao.insert(name);
+            RestaurantList list = new RestaurantList("Elijah");
+            Restaurant restaurant1 = new Restaurant(1, "Chipotle");
+            Restaurant restaurant2 = new Restaurant(1, "Salata");
+            listDao.insert(list);
+            restaurantDao.insert(restaurant1);
+            restaurantDao.insert(restaurant2);
             return null;
         }
     }
