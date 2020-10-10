@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
 import androidx.room.Query;
+import androidx.room.Transaction;
 
 import com.erw.randomrestaurant.database.RestaurantList;
 import com.erw.randomrestaurant.database.RestaurantListWRestaurants;
@@ -28,7 +29,8 @@ public interface RestaurantListDao {
     @Query("SELECT * from restaurant_list where list_id = :listId")
     RestaurantList findRestaurantList(int listId);
 
-    @Query("SELECT * FROM restaurant_list INNER JOIN restaurant ON list_id = list_id")
+    @Transaction
+    @Query("SELECT * FROM restaurant_list INNER JOIN restaurant ON restaurant_list.list_id = restaurant.list_id")
     public LiveData<List<RestaurantListWRestaurants>> getListWithItems();
 
 }

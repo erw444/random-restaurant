@@ -6,7 +6,7 @@ import androidx.room.Relation;
 import java.util.List;
 
 public class RestaurantListWRestaurants {
-    @Embedded public RestaurantList lsit;
+    @Embedded public RestaurantList list;
     @Relation(
             parentColumn = "list_id",
             entityColumn = "list_id"
