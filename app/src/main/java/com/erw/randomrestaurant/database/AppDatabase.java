@@ -11,14 +11,19 @@ import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+
 
 @Database(entities = {RestaurantList.class, Restaurant.class}, version = 1, exportSchema = false)
-@TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 
     private static final String LOG_TAG = AppDatabase.class.getSimpleName();
-    private static final String DATABASE_NAME = "exerciseHistoryDb";
+    private static final String DATABASE_NAME = "randomRestaurantDb";
     private static volatile AppDatabase sInstance;
+    private static final int NUMBER_OF_THREADS = 4;
+    static final ExecutorService databaseWriteExecutor =
+            Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     public static AppDatabase getInstance(Context context) {
         if (sInstance == null) {
@@ -39,18 +44,15 @@ public abstract class AppDatabase extends RoomDatabase {
 
     public abstract RestaurantDao getRestaurantDao();
 
-    private static RoomDatabase.Callback sRoomDatabaseCallback =
-            new RoomDatabase.Callback(){
-
-                @Override
-                public void onOpen (@NonNull SupportSQLiteDatabase db){
-                    super.onOpen(db);
-                    new PopulateDbAsync(sInstance).execute();
-                }
-            };
+    private static RoomDatabase.Callback sRoomDatabaseCallback = new RoomDatabase.Callback(){
+        @Override
+        public void onCreate (@NonNull SupportSQLiteDatabase db){
+            super.onCreate(db);
+            new PopulateDbAsync(sInstance).execute();
+        }
+    };
 
     private static class PopulateDbAsync extends AsyncTask<Void, Void, Void> {
-
         private final RestaurantDao restaurantDao;
         private final RestaurantListDao listDao;
 

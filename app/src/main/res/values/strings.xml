@@ -12,4 +12,6 @@
     <string name="new_list_name_default">List Name</string>
     <string name="make_list">Make List</string>
     <string name="new_restaurant_name_default">Restaurant Name</string>
+
+    <string name="empty_not_saved">List was not saved</string>
 </resources>
