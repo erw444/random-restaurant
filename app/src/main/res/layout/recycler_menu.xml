@@ -17,6 +17,7 @@
         app:layout_constraintStart_toEndOf="parent">
 
         <ImageView
+            android:id="@+id/menu_edit_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -24,6 +25,7 @@
             android:src="@drawable/ic_baseline_edit_24" />
 
         <TextView
+            android:id="@+id/menu_edit_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"

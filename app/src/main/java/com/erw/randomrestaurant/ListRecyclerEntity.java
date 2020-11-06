@@ -4,6 +4,7 @@ import com.erw.randomrestaurant.database.RestaurantList;
 
 public class ListRecyclerEntity {
 
+    private long dbId;
     private String title;
     private boolean showMenu = false;
 
@@ -23,6 +24,14 @@ public class ListRecyclerEntity {
         this.showMenu = showMenu;
     }
 
+    public long getDbId() {
+        return dbId;
+    }
+
+    public void setDbId(long dbId) {
+        this.dbId = dbId;
+    }
+
     public ListRecyclerEntity() {
     }
 
@@ -32,6 +41,7 @@ public class ListRecyclerEntity {
     }
 
     public ListRecyclerEntity(RestaurantList restaurantList){
+        this.dbId = restaurantList.getListId();
         this.title = restaurantList.getName();
         this.showMenu = false;
     }

@@ -20,7 +20,7 @@ public class Restaurant implements Parcelable {
     private long listId;
 
     @NonNull
-    @ColumnInfo(name = "name")
+    @ColumnInfo(name = "restaurant_name")
     private String name;
 
 

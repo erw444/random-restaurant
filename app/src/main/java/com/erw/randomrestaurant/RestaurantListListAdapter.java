@@ -1,8 +1,10 @@
 package com.erw.randomrestaurant;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
@@ -10,10 +12,13 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.erw.randomrestaurant.database.RestaurantList;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class RestaurantListListAdapter extends ListAdapter<ListRecyclerEntity, RecyclerView.ViewHolder> {
     private final int SHOW_MENU = 1;
     private final int HIDE_MENU = 2;
+
+    public static final int EDIT_LIST_ACTIVITY_REQUEST_CODE = 2;
 
     public RestaurantListListAdapter(@NonNull DiffUtil.ItemCallback<ListRecyclerEntity> diffCallback) {
         super(diffCallback);
@@ -45,7 +50,17 @@ public class RestaurantListListAdapter extends ListAdapter<ListRecyclerEntity, R
         if(holder instanceof ListViewHolder){
             ((ListViewHolder)holder).bind(currentList.getTitle());
         } else if (holder instanceof MenuViewHolder){
+            ImageView image = ((MenuViewHolder)holder).itemView.findViewById(R.id.menu_edit_image);
+            image.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ListRecyclerEntity entity = getItem(holder.getAdapterPosition());
 
+                    Intent intent = new Intent(view.getContext(), EditListActivity.class);
+                    intent.putExtra("listId", entity.getDbId());
+                    view.getContext().startActivity(intent);
+                }
+            });
         }
 
     }
@@ -96,6 +111,7 @@ public class RestaurantListListAdapter extends ListAdapter<ListRecyclerEntity, R
 
         static MenuViewHolder create(ViewGroup parent){
             View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_menu, parent, false);
+
             return new MenuViewHolder(v);
         }
     }

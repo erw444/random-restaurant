@@ -8,6 +8,7 @@ import androidx.lifecycle.LiveData;
 import com.erw.randomrestaurant.database.RandomRestaurantRepository;
 import com.erw.randomrestaurant.database.Restaurant;
 import com.erw.randomrestaurant.database.RestaurantList;
+import com.erw.randomrestaurant.database.RestaurantListWRestaurants;
 
 import java.util.List;
 
@@ -23,6 +24,10 @@ public class RestaurantListViewModel extends AndroidViewModel {
     }
 
     LiveData<List<RestaurantList>> getAllLists() { return mAllLists; }
+
+    LiveData<RestaurantListWRestaurants> getRestaurantList(long id) {
+        return mRepository.getList(id);
+    }
 
     public void insert(RestaurantList list) { mRepository.insert(list); }
 

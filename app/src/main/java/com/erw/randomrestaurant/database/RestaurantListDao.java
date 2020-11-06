@@ -23,14 +23,14 @@ public interface RestaurantListDao {
     @Query("SELECT * from restaurant_list ORDER BY list_id ASC")
     LiveData<List<RestaurantList>> getAllRestaurantLists();
 
-    @Query("SELECT * from restaurant_list where name = :listName")
+    @Query("SELECT * from restaurant_list where list_name = :listName")
     RestaurantList findRestaurantList(String listName);
 
     @Query("SELECT * from restaurant_list where list_id = :listId")
     RestaurantList findRestaurantList(int listId);
 
     @Transaction
-    @Query("SELECT * FROM restaurant_list INNER JOIN restaurant ON restaurant_list.list_id = restaurant.list_id")
-    public LiveData<List<RestaurantListWRestaurants>> getListWithItems();
+    @Query("SELECT * FROM restaurant_list INNER JOIN restaurant ON restaurant_list.list_id = restaurant.list_id where restaurant_list.list_id = :listId")
+    public LiveData<RestaurantListWRestaurants> getListWithItems(long listId);
 
 }

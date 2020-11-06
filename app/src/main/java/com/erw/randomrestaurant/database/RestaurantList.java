@@ -16,7 +16,7 @@ public class RestaurantList implements Parcelable {
     @ColumnInfo(name = "list_id")
     private long listId;
 
-    @ColumnInfo(name = "name")
+    @ColumnInfo(name = "list_name")
     private String name;
 
     public RestaurantList() {}
