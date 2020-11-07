@@ -29,6 +29,12 @@ public class RestaurantListViewModel extends AndroidViewModel {
         return mRepository.getList(id);
     }
 
-    public void insert(RestaurantList list) { mRepository.insert(list); }
+    public void insertList(RestaurantList list) { mRepository.insertList(list); }
+
+    public void insertRestaurant(Restaurant restaurant) { mRepository.insertRestaurant(restaurant); }
+
+    public void updateList(RestaurantList list) { mRepository.updateList(list); }
+
+    public void updateRestaurant(Restaurant restaurant) { mRepository.updateRestaurant(restaurant); }
 
 }

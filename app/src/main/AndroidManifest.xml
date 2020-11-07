@@ -21,6 +21,7 @@
         </activity>
         <activity android:name=".AddListActivity"></activity>
         <activity android:name=".EditListActivity"></activity>
+        <activity android:name=".AddRestaurantActivity"></activity>
     </application>
 
 </manifest>

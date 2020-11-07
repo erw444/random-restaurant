@@ -9,6 +9,7 @@ import java.util.List;
 public class RandomRestaurantRepository {
 
     private RestaurantListDao mListDao;
+    private RestaurantDao mRestaurantDao;
     private LiveData<List<RestaurantList>> mAllLists;
 
     // Note that in order to unit test the WordRepository, you have to remove the Application
@@ -18,6 +19,7 @@ public class RandomRestaurantRepository {
     public RandomRestaurantRepository(Application application) {
         AppDatabase db = AppDatabase.getInstance(application);
         mListDao = db.getRestaurantListDao();
+        mRestaurantDao = db.getRestaurantDao();
         mAllLists = mListDao.getAllRestaurantLists();
     }
 
@@ -33,9 +35,27 @@ public class RandomRestaurantRepository {
 
     // You must call this on a non-UI thread or your app will throw an exception. Room ensures
     // that you're not doing any long running operations on the main thread, blocking the UI.
-    public void insert(RestaurantList list) {
+    public void insertList(RestaurantList list) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             mListDao.insert(list);
+        });
+    }
+
+    public void insertRestaurant(Restaurant restaurant) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mRestaurantDao.insert(restaurant);
+        });
+    }
+
+    public void updateList(RestaurantList list){
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mListDao.update(list);
+        });
+    }
+
+    public void updateRestaurant(Restaurant restaurant) {
+        AppDatabase.databaseWriteExecutor.execute(() -> {
+            mRestaurantDao.update(restaurant);
         });
     }
 }

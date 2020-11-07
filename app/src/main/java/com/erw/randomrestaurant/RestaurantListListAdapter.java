@@ -18,7 +18,7 @@ public class RestaurantListListAdapter extends ListAdapter<ListRecyclerEntity, R
     private final int SHOW_MENU = 1;
     private final int HIDE_MENU = 2;
 
-    public static final int EDIT_LIST_ACTIVITY_REQUEST_CODE = 2;
+
 
     public RestaurantListListAdapter(@NonNull DiffUtil.ItemCallback<ListRecyclerEntity> diffCallback) {
         super(diffCallback);

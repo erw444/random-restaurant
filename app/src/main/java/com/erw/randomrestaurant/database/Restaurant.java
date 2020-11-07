@@ -27,7 +27,7 @@ public class Restaurant implements Parcelable {
     public Restaurant(){}
 
     @Ignore
-    public Restaurant(int listId, String name){
+    public Restaurant(long listId, String name){
         this.listId = listId;
         this.name = name;
     }

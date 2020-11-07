@@ -19,7 +19,7 @@
         android:id="@+id/AddRestaurantFragment"
         android:name="com.erw.randomrestaurant.AddRestaurantFragment"
         android:label="@string/second_fragment_label"
-        tools:layout="@layout/fragment_add_restaurant">
+        tools:layout="@layout/activity_add_restaurant">
 
         <action
             android:id="@+id/action_AddRestaurantFragment_to_AddListFragment"

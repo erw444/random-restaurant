@@ -4,8 +4,10 @@ package com.erw.randomrestaurant.database;
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Transaction;
+import androidx.room.Update;
 
 import com.erw.randomrestaurant.database.RestaurantList;
 import com.erw.randomrestaurant.database.RestaurantListWRestaurants;
@@ -32,5 +34,8 @@ public interface RestaurantListDao {
     @Transaction
     @Query("SELECT * FROM restaurant_list INNER JOIN restaurant ON restaurant_list.list_id = restaurant.list_id where restaurant_list.list_id = :listId")
     public LiveData<RestaurantListWRestaurants> getListWithItems(long listId);
+
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    void update(RestaurantList restaurant);
 
 }

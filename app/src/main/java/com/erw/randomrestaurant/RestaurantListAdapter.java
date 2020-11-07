@@ -27,8 +27,8 @@ public class RestaurantListAdapter extends ListAdapter<Restaurant, RecyclerView.
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
-
+        Restaurant restaurant = getItem(position);
+        ((ListViewHolder)holder).bind(restaurant.getName());
     }
 
     static class ListDiff extends DiffUtil.ItemCallback<Restaurant> {

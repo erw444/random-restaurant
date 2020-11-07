@@ -23,7 +23,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +34,8 @@ public class MainActivity extends AppCompatActivity {
 
     private RestaurantListListAdapter adapter;
 
-    public static final int NEW_LIST_ACTIVITY_REQUEST_CODE = 1;
+    private List<ListRecyclerEntity> mListEntities;
+
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -53,14 +53,14 @@ public class MainActivity extends AppCompatActivity {
         mListViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(RestaurantListViewModel.class);
 
         mListViewModel.getAllLists().observe(this, lists -> {
-            List<ListRecyclerEntity> entityList = new ArrayList<ListRecyclerEntity>();
+            mListEntities = new ArrayList<ListRecyclerEntity>();
 
             for(RestaurantList list: lists){
-                entityList.add(new ListRecyclerEntity(list));
+                mListEntities.add(new ListRecyclerEntity(list));
             }
 
             // Update the cached copy of the words in the adapter.
-            adapter.submitList(entityList);
+            adapter.submitList(mListEntities);
         });
 
         ItemTouchHelper.SimpleCallback touchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
@@ -108,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AddListActivity.class);
-                startActivityForResult(intent, NEW_LIST_ACTIVITY_REQUEST_CODE);
+                startActivityForResult(intent, CodesAndStrings.NEW_LIST_ACTIVITY_REQUEST_CODE);
             }
         });
     }
@@ -144,17 +144,17 @@ public class MainActivity extends AppCompatActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == NEW_LIST_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
-            RestaurantList list = new RestaurantList(data.getStringExtra(AddListActivity.EXTRA_REPLY));
-            mListViewModel.insert(list);
+        if (requestCode == CodesAndStrings.NEW_LIST_ACTIVITY_REQUEST_CODE && resultCode == RESULT_OK) {
+            RestaurantList list = new RestaurantList(data.getStringExtra(CodesAndStrings.EXTRA_REPLY));
+            mListViewModel.insertList(list);
         } else {
-            Toast.makeText(
-                    getApplicationContext(),
-                    R.string.empty_not_saved,
-                    Toast.LENGTH_LONG).show();
+                Toast.makeText(
+                        getApplicationContext(),
+                        R.string.empty_not_saved,
+                        Toast.LENGTH_LONG).show();
         }
-
     }
+
 
     @Override
     public void onBackPressed() {

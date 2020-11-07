@@ -4,17 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AddRestaurantFragment">
-
-    <TextView
-        android:id="@+id/list_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/new_list_name_default"
-        android:layout_marginTop="106dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+    tools:context=".AddRestaurantActivity">
 
     <EditText
         android:id="@+id/restaurant_name"
@@ -24,15 +14,15 @@
         android:layout_marginTop="106dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/list_name"/>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <Button
-        android:id="@+id/button_second"
+        android:id="@+id/save_add_restaurant"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/previous"
+        android:text="@string/save_new_restaurant"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/list_name" />
+        app:layout_constraintTop_toBottomOf="@id/restaurant_name" />
 </androidx.constraintlayout.widget.ConstraintLayout>
