@@ -15,7 +15,7 @@ import java.util.List;
 public class RestaurantListViewModel extends AndroidViewModel {
     private RandomRestaurantRepository mRepository;
 
-    private final LiveData<List<RestaurantList>> mAllLists;
+    private final LiveData<List<RestaurantListWRestaurants>> mAllLists;
 
     public RestaurantListViewModel (Application application) {
         super(application);
@@ -23,10 +23,14 @@ public class RestaurantListViewModel extends AndroidViewModel {
         mAllLists = mRepository.getAllLists();
     }
 
-    LiveData<List<RestaurantList>> getAllLists() { return mAllLists; }
+    LiveData<List<RestaurantListWRestaurants>> getAllLists() { return mAllLists; }
 
     LiveData<RestaurantListWRestaurants> getRestaurantList(long id) {
         return mRepository.getList(id);
+    }
+
+    LiveData<Restaurant> getRestaurant(long id) {
+        return mRepository.getRestaurant(id);
     }
 
     public void insertList(RestaurantList list) { mRepository.insertList(list); }
@@ -36,5 +40,13 @@ public class RestaurantListViewModel extends AndroidViewModel {
     public void updateList(RestaurantList list) { mRepository.updateList(list); }
 
     public void updateRestaurant(Restaurant restaurant) { mRepository.updateRestaurant(restaurant); }
+
+    public void deleteRestaurantList(long listId){
+        mRepository.deleteList(listId);
+    }
+
+    public void deleteRestaurant(long restaurantId){
+        mRepository.deleteRestaurant(restaurantId);
+    }
 
 }

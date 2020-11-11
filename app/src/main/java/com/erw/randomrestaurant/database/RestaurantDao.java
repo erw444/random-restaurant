@@ -15,7 +15,7 @@ import java.util.List;
 public interface RestaurantDao {
 
     @Query("SELECT * FROM restaurant")
-    LiveData<List<Restaurant>> loadRestaurants();
+    LiveData<List<Restaurant>> getRestaurants();
 
     @Insert
     void insert(Restaurant restaurant);
@@ -23,11 +23,11 @@ public interface RestaurantDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void update(Restaurant restaurant);
 
-    @Delete
-    void delete(Restaurant restaurant);
+    @Query("DELETE FROM restaurant where restaurant_id = :restaurantId")
+    void deleteByRestaurantId(long restaurantId);
 
     @Query("SELECT * FROM restaurant WHERE restaurant_id = :id")
-    LiveData<Restaurant> loadRestaurantById(int id);
+    LiveData<Restaurant> getRestaurantById(long id);
 
 
 }

@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 
 import com.erw.randomrestaurant.database.RestaurantList;
+import com.erw.randomrestaurant.database.RestaurantListWRestaurants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.RequiresApi;
@@ -34,8 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
     private RestaurantListListAdapter adapter;
 
-    private List<ListRecyclerEntity> mListEntities;
-
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -45,22 +44,23 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+
+        mListViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(RestaurantListViewModel.class);
         RecyclerView recyclerView = findViewById(R.id.recycler_list_view);
-        adapter = new RestaurantListListAdapter(new RestaurantListListAdapter.ListDiff());
+        adapter = new RestaurantListListAdapter(new RestaurantListListAdapter.ListDiff(), mListViewModel, getApplicationContext());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        mListViewModel = new ViewModelProvider(this, ViewModelProvider.AndroidViewModelFactory.getInstance(this.getApplication())).get(RestaurantListViewModel.class);
+        mListViewModel.getAllLists().observe(this, listContainers -> {
+            List<ListRecyclerEntity> listEntities = new ArrayList<ListRecyclerEntity>();
 
-        mListViewModel.getAllLists().observe(this, lists -> {
-            mListEntities = new ArrayList<ListRecyclerEntity>();
+            for(RestaurantListWRestaurants listContainer: listContainers){
 
-            for(RestaurantList list: lists){
-                mListEntities.add(new ListRecyclerEntity(list));
+                listEntities.add(new ListRecyclerEntity(listContainer.list, listContainer.restaurants));
             }
 
             // Update the cached copy of the words in the adapter.
-            adapter.submitList(mListEntities);
+            adapter.submitList(listEntities);
         });
 
         ItemTouchHelper.SimpleCallback touchHelperCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {

@@ -16,4 +16,5 @@
     <string name="empty_not_saved">List was not saved</string>
 
     <string name="save_edit_list">Save Edit</string>
+    <string name="no_delete_has_restaurants">Cannot delete. Has Restaurants.</string>
 </resources>

@@ -7,14 +7,14 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:id="@+id/linearLayout4"
+        android:id="@+id/edit_linear_layout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
-        app:layout_constraintEnd_toStartOf="parent"
-        app:layout_constraintStart_toEndOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/delete_linear_layout">
 
         <ImageView
             android:id="@+id/menu_edit_image"
@@ -35,4 +35,32 @@
             android:textColor="#ffffff" />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/delete_linear_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edit_linear_layout">
+
+        <ImageView
+            android:id="@+id/menu_delete_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_baseline_delete_24" />
+
+        <TextView
+            android:id="@+id/menu_delete_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:layout_marginTop="2dp"
+            android:text="Edit"
+            android:textColor="#ffffff" />
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

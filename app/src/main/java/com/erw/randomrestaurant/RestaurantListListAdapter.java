@@ -1,27 +1,38 @@
 package com.erw.randomrestaurant;
 
+import android.content.Context;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.erw.randomrestaurant.database.Restaurant;
 import com.erw.randomrestaurant.database.RestaurantList;
+import com.erw.randomrestaurant.database.RestaurantListWRestaurants;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.List;
 
 public class RestaurantListListAdapter extends ListAdapter<ListRecyclerEntity, RecyclerView.ViewHolder> {
     private final int SHOW_MENU = 1;
     private final int HIDE_MENU = 2;
 
+    private RestaurantListViewModel mListViewModel;
+    private Context mContext;
 
-
-    public RestaurantListListAdapter(@NonNull DiffUtil.ItemCallback<ListRecyclerEntity> diffCallback) {
+    public RestaurantListListAdapter(@NonNull DiffUtil.ItemCallback<ListRecyclerEntity> diffCallback, RestaurantListViewModel viewModel, Context context) {
         super(diffCallback);
+        this.mListViewModel = viewModel;
+        this.mContext = context;
     }
 
     @Override
@@ -50,8 +61,8 @@ public class RestaurantListListAdapter extends ListAdapter<ListRecyclerEntity, R
         if(holder instanceof ListViewHolder){
             ((ListViewHolder)holder).bind(currentList.getTitle());
         } else if (holder instanceof MenuViewHolder){
-            ImageView image = ((MenuViewHolder)holder).itemView.findViewById(R.id.menu_edit_image);
-            image.setOnClickListener(new View.OnClickListener() {
+            ImageView editImage = ((MenuViewHolder)holder).itemView.findViewById(R.id.menu_edit_image);
+            editImage.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     ListRecyclerEntity entity = getItem(holder.getAdapterPosition());
@@ -59,6 +70,23 @@ public class RestaurantListListAdapter extends ListAdapter<ListRecyclerEntity, R
                     Intent intent = new Intent(view.getContext(), EditListActivity.class);
                     intent.putExtra("listId", entity.getDbId());
                     view.getContext().startActivity(intent);
+                }
+            });
+
+            ImageView deleteImage = ((MenuViewHolder)holder).itemView.findViewById(R.id.menu_delete_image);
+            deleteImage.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ListRecyclerEntity entity = getItem(holder.getAdapterPosition());
+
+                    if(entity.getNumRestaurants() == 0){
+                        mListViewModel.deleteRestaurantList(entity.getDbId());
+                    } else {
+                        Toast.makeText(
+                                mContext,
+                                R.string.no_delete_has_restaurants,
+                                Toast.LENGTH_LONG).show();
+                    }
                 }
             });
         }
@@ -100,19 +128,6 @@ public class RestaurantListListAdapter extends ListAdapter<ListRecyclerEntity, R
         @Override
         public boolean areContentsTheSame(@NonNull ListRecyclerEntity oldItem, @NonNull ListRecyclerEntity newItem) {
             return oldItem.getTitle().equals(newItem.getTitle());
-        }
-    }
-
-    //Our menu view
-    public static class MenuViewHolder extends RecyclerView.ViewHolder{
-        public MenuViewHolder(View view){
-            super(view);
-        }
-
-        static MenuViewHolder create(ViewGroup parent){
-            View v= LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_menu, parent, false);
-
-            return new MenuViewHolder(v);
         }
     }
 }

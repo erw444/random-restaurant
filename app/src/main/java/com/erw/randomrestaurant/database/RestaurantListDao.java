@@ -3,6 +3,7 @@ package com.erw.randomrestaurant.database;
 
 import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -19,11 +20,8 @@ public interface RestaurantListDao {
     @Insert
     long insert(RestaurantList RestaurantList);
 
-    //@Query("DELETE FROM restaurant_list")
-    //void deleteAll();
-
     @Query("SELECT * from restaurant_list ORDER BY list_id ASC")
-    LiveData<List<RestaurantList>> getAllRestaurantLists();
+    LiveData<List<RestaurantListWRestaurants>> getAllRestaurantListsWithItems();
 
     @Query("SELECT * from restaurant_list where list_name = :listName")
     RestaurantList findRestaurantList(String listName);
@@ -32,10 +30,12 @@ public interface RestaurantListDao {
     RestaurantList findRestaurantList(int listId);
 
     @Transaction
-    @Query("SELECT * FROM restaurant_list INNER JOIN restaurant ON restaurant_list.list_id = restaurant.list_id where restaurant_list.list_id = :listId")
-    public LiveData<RestaurantListWRestaurants> getListWithItems(long listId);
+    @Query("SELECT * FROM restaurant_list where restaurant_list.list_id = :listId")
+    LiveData<RestaurantListWRestaurants> getListWithItems(long listId);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void update(RestaurantList restaurant);
 
+    @Query("DELETE FROM restaurant_list where list_id = :listId")
+    void deleteByListId(long listId);
 }
