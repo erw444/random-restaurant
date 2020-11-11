@@ -23,14 +23,23 @@ public class RestaurantListViewModel extends AndroidViewModel {
         mAllLists = mRepository.getAllLists();
     }
 
+    public RandomRestaurantRepository getRepository() {
+        return mRepository;
+    }
+
     LiveData<List<RestaurantListWRestaurants>> getAllLists() { return mAllLists; }
 
     LiveData<RestaurantListWRestaurants> getRestaurantList(long id) {
-        return mRepository.getList(id);
+        return mRepository.getListWRestaurantAsync(id);
     }
 
     LiveData<Restaurant> getRestaurant(long id) {
         return mRepository.getRestaurant(id);
+    }
+
+    public List<Restaurant> getRestaurantsFromList(long id){
+        RestaurantListWRestaurants listWithRestaurants = mRepository.getListWRestaurant(id);
+        return listWithRestaurants.restaurants;
     }
 
     public void insertList(RestaurantList list) { mRepository.insertList(list); }

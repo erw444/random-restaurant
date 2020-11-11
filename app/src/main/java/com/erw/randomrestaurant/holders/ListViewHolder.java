@@ -1,4 +1,4 @@
-package com.erw.randomrestaurant;
+package com.erw.randomrestaurant.holders;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -6,6 +6,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.erw.randomrestaurant.R;
 
 public class ListViewHolder extends RecyclerView.ViewHolder{
     private final TextView listItemView;
@@ -19,7 +21,7 @@ public class ListViewHolder extends RecyclerView.ViewHolder{
         listItemView.setText(text);
     }
 
-    static ListViewHolder create(ViewGroup parent) {
+    public static ListViewHolder create(ViewGroup parent) {
         View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.recyclerview_list_item, parent, false);
         return new ListViewHolder(view);

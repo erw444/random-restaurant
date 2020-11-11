@@ -1,26 +1,32 @@
-package com.erw.randomrestaurant;
+package com.erw.randomrestaurant.adapters;
 
+import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
-import android.view.LayoutInflater;
+import android.os.Build;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModelProvider;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.erw.randomrestaurant.EditListActivity;
+import com.erw.randomrestaurant.RandomizeAsyncTask;
 import com.erw.randomrestaurant.database.Restaurant;
-import com.erw.randomrestaurant.database.RestaurantList;
-import com.erw.randomrestaurant.database.RestaurantListWRestaurants;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.erw.randomrestaurant.domain.ListRecyclerEntity;
+import com.erw.randomrestaurant.R;
+import com.erw.randomrestaurant.RestaurantListViewModel;
+import com.erw.randomrestaurant.holders.ListViewHolder;
+import com.erw.randomrestaurant.holders.MenuViewHolder;
 
 import java.util.List;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class RestaurantListListAdapter extends ListAdapter<ListRecyclerEntity, RecyclerView.ViewHolder> {
     private final int SHOW_MENU = 1;
@@ -61,6 +67,17 @@ public class RestaurantListListAdapter extends ListAdapter<ListRecyclerEntity, R
         if(holder instanceof ListViewHolder){
             ((ListViewHolder)holder).bind(currentList.getTitle());
         } else if (holder instanceof MenuViewHolder){
+            ImageView randomImage = ((MenuViewHolder)holder).itemView.findViewById(R.id.menu_random_image);
+            randomImage.setOnClickListener(new View.OnClickListener() {
+                @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+                @Override
+                public void onClick(View view) {
+                    ListRecyclerEntity entity = getItem(holder.getAdapterPosition());
+                    new RandomizeAsyncTask((Application) mContext.getApplicationContext(), mListViewModel.getRepository(), entity).execute();
+
+                }
+            });
+
             ImageView editImage = ((MenuViewHolder)holder).itemView.findViewById(R.id.menu_edit_image);
             editImage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -85,7 +102,7 @@ public class RestaurantListListAdapter extends ListAdapter<ListRecyclerEntity, R
                         Toast.makeText(
                                 mContext,
                                 R.string.no_delete_has_restaurants,
-                                Toast.LENGTH_LONG).show();
+                                Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -118,7 +135,7 @@ public class RestaurantListListAdapter extends ListAdapter<ListRecyclerEntity, R
         notifyDataSetChanged();
     }
 
-    static class ListDiff extends DiffUtil.ItemCallback<ListRecyclerEntity> {
+    public static class ListDiff extends DiffUtil.ItemCallback<ListRecyclerEntity> {
 
         @Override
         public boolean areItemsTheSame(@NonNull ListRecyclerEntity oldItem, @NonNull ListRecyclerEntity newItem) {

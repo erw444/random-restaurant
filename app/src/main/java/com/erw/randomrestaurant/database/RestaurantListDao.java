@@ -31,7 +31,11 @@ public interface RestaurantListDao {
 
     @Transaction
     @Query("SELECT * FROM restaurant_list where restaurant_list.list_id = :listId")
-    LiveData<RestaurantListWRestaurants> getListWithItems(long listId);
+    LiveData<RestaurantListWRestaurants> getListWithItemsAsync(long listId);
+
+    @Transaction
+    @Query("SELECT * FROM restaurant_list where restaurant_list.list_id = :listId")
+    RestaurantListWRestaurants getListWithItems(long listId);
 
     @Update(onConflict = OnConflictStrategy.REPLACE)
     void update(RestaurantList restaurant);

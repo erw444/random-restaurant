@@ -6,8 +6,10 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Build;
 import android.os.Bundle;
 
+import com.erw.randomrestaurant.adapters.RestaurantListListAdapter;
 import com.erw.randomrestaurant.database.RestaurantList;
 import com.erw.randomrestaurant.database.RestaurantListWRestaurants;
+import com.erw.randomrestaurant.domain.ListRecyclerEntity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import androidx.annotation.RequiresApi;

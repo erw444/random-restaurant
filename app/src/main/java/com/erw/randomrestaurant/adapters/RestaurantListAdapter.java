@@ -1,18 +1,24 @@
-package com.erw.randomrestaurant;
+package com.erw.randomrestaurant.adapters;
 
 import android.content.Intent;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.DiffUtil;
 import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.erw.randomrestaurant.database.Restaurant;
+import com.erw.randomrestaurant.AddRestaurantActivity;
+import com.erw.randomrestaurant.CodesAndStrings;
+import com.erw.randomrestaurant.EditListActivity;
+import com.erw.randomrestaurant.R;
+import com.erw.randomrestaurant.RestaurantListViewModel;
+import com.erw.randomrestaurant.domain.ListRecyclerEntity;
+import com.erw.randomrestaurant.domain.RestaurantRecyclerEntity;
+import com.erw.randomrestaurant.holders.ListViewHolder;
+import com.erw.randomrestaurant.holders.MenuViewHolder;
 
 public class RestaurantListAdapter extends ListAdapter<RestaurantRecyclerEntity, RecyclerView.ViewHolder> {
 
@@ -52,6 +58,9 @@ public class RestaurantListAdapter extends ListAdapter<RestaurantRecyclerEntity,
         if(holder instanceof ListViewHolder){
             ((ListViewHolder)holder).bind(restaurant.getName());
         } else if (holder instanceof MenuViewHolder) {
+            ImageView randomImage = ((MenuViewHolder)holder).itemView.findViewById(R.id.menu_random_image);
+            randomImage.setVisibility(View.INVISIBLE);
+
             ImageView editImage = ((MenuViewHolder) holder).itemView.findViewById(R.id.menu_edit_image);
             editImage.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -99,7 +108,7 @@ public class RestaurantListAdapter extends ListAdapter<RestaurantRecyclerEntity,
         notifyDataSetChanged();
     }
 
-    static class ListDiff extends DiffUtil.ItemCallback<RestaurantRecyclerEntity> {
+    public static class ListDiff extends DiffUtil.ItemCallback<RestaurantRecyclerEntity> {
 
         @Override
         public boolean areItemsTheSame(@NonNull RestaurantRecyclerEntity oldItem, @NonNull RestaurantRecyclerEntity newItem) {

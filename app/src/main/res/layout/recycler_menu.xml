@@ -7,13 +7,42 @@
     android:orientation="horizontal">
 
     <LinearLayout
-        android:id="@+id/edit_linear_layout"
+        android:id="@+id/random_linear_layout"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_weight="1"
         android:gravity="center"
         android:orientation="vertical"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/edit_linear_layout">
+
+        <ImageView
+            android:id="@+id/menu_random_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="5dp"
+            android:src="@drawable/ic_baseline_random_24" />
+
+        <TextView
+            android:id="@+id/menu_random_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+
+            android:layout_marginTop="2dp"
+            android:text="Edit"
+            android:textColor="#ffffff" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/edit_linear_layout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="@id/random_linear_layout"
         app:layout_constraintEnd_toStartOf="@id/delete_linear_layout">
 
         <ImageView

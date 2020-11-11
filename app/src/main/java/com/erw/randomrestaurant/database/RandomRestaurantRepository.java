@@ -29,7 +29,11 @@ public class RandomRestaurantRepository {
         return mAllLists;
     }
 
-    public LiveData<RestaurantListWRestaurants> getList(long id) {
+    public LiveData<RestaurantListWRestaurants> getListWRestaurantAsync(long id) {
+        return mListDao.getListWithItemsAsync(id);
+    }
+
+    public RestaurantListWRestaurants getListWRestaurant(long id) {
         return mListDao.getListWithItems(id);
     }
 

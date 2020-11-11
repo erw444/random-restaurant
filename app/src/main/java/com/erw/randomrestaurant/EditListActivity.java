@@ -18,9 +18,10 @@ import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.erw.randomrestaurant.adapters.RestaurantListAdapter;
 import com.erw.randomrestaurant.database.Restaurant;
-import com.erw.randomrestaurant.database.RestaurantList;
 import com.erw.randomrestaurant.database.RestaurantListWRestaurants;
+import com.erw.randomrestaurant.domain.RestaurantRecyclerEntity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;

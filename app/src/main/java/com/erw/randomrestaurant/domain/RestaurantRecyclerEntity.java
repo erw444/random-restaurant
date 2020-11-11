@@ -1,4 +1,4 @@
-package com.erw.randomrestaurant;
+package com.erw.randomrestaurant.domain;
 
 import com.erw.randomrestaurant.database.Restaurant;
 import com.erw.randomrestaurant.database.RestaurantList;
