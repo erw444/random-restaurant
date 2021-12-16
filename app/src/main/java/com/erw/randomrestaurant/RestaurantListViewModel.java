@@ -10,17 +10,23 @@ import com.erw.randomrestaurant.database.Restaurant;
 import com.erw.randomrestaurant.database.RestaurantList;
 import com.erw.randomrestaurant.database.RestaurantListWRestaurants;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutorService;
 
 public class RestaurantListViewModel extends AndroidViewModel {
     private RandomRestaurantRepository mRepository;
 
     private final LiveData<List<RestaurantListWRestaurants>> mAllLists;
 
+    private List<RestaurantListViewModel> mLoadedList;
+
     public RestaurantListViewModel (Application application) {
         super(application);
-        mRepository = new RandomRestaurantRepository(application);
+        ExecutorService executorService = ((RandomRestaurantApplication) application).executorService;
+        mRepository = new RandomRestaurantRepository(application, executorService);
         mAllLists = mRepository.getAllLists();
+        mLoadedList = new ArrayList<RestaurantListViewModel>();
     }
 
     public RandomRestaurantRepository getRepository() {
@@ -38,8 +44,13 @@ public class RestaurantListViewModel extends AndroidViewModel {
     }
 
     public List<Restaurant> getRestaurantsFromList(long id){
-        RestaurantListWRestaurants listWithRestaurants = mRepository.getListWRestaurant(id);
-        return listWithRestaurants.restaurants;
+        RestaurantListWRestaurants listWithRestaurants = mRepository.getListWRestaurant(id,
+                new RandomRestaurantRepository.RepositoryCallback<RestaurantListWRestaurants>() {
+            @Override
+            public void onComplete(RestaurantListWRestaurants result) {
+                mLoadedList = 
+            }
+        });
     }
 
     public void insertList(RestaurantList list) { mRepository.insertList(list); }

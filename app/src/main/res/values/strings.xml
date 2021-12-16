@@ -1,14 +1,11 @@
 <resources>
     <string name="app_name">Random Restaurant</string>
     <string name="action_settings">Settings</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="save_new_restaurant">Add Restaurant</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
+    <string name="list_name_title">List Name:</string>
+
     <string name="new_list_name_default">List Name</string>
     <string name="make_list">Make List</string>
     <string name="new_restaurant_name_default">Restaurant Name</string>
@@ -17,4 +14,8 @@
 
     <string name="save_edit_list">Save Edit</string>
     <string name="no_delete_has_restaurants">Cannot delete. Has Restaurants.</string>
+
+    <string name="accept_button_text">Accept</string>
+    <string name="reject_button_text">Reject</string>
+    <string name="randomize_button_text">Randomize!</string>
 </resources>

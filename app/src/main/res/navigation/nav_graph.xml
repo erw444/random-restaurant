@@ -2,27 +2,7 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/nav_graph"
-    app:startDestination="@id/AddListFragment">
+    android:id="@+id/nav_graph">
 
-    <fragment
-        android:id="@+id/AddListFragment"
-        android:name="com.erw.randomrestaurant.AddListFragment"
-        android:label="@string/first_fragment_label"
-        tools:layout="@layout/activity_add_list">
 
-        <action
-            android:id="@+id/action_AddListFragment_to_AddRestaurantFragment"
-            app:destination="@id/AddRestaurantFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/AddRestaurantFragment"
-        android:name="com.erw.randomrestaurant.AddRestaurantFragment"
-        android:label="@string/second_fragment_label"
-        tools:layout="@layout/activity_add_restaurant">
-
-        <action
-            android:id="@+id/action_AddRestaurantFragment_to_AddListFragment"
-            app:destination="@id/AddListFragment" />
-    </fragment>
 </navigation>

@@ -5,22 +5,21 @@ import android.app.Application;
 import androidx.lifecycle.LiveData;
 
 import java.util.List;
+import java.util.concurrent.Executor;
 
 public class RandomRestaurantRepository {
 
     private RestaurantListDao mListDao;
     private RestaurantDao mRestaurantDao;
     private LiveData<List<RestaurantListWRestaurants>> mAllLists;
+    private Executor mExecutor;
 
-    // Note that in order to unit test the WordRepository, you have to remove the Application
-    // dependency. This adds complexity and much more code, and this sample is not about testing.
-    // See the BasicSample in the android-architecture-components repository at
-    // https://github.com/googlesamples
-    public RandomRestaurantRepository(Application application) {
+    public RandomRestaurantRepository(Application application, Executor executor) {
         AppDatabase db = AppDatabase.getInstance(application);
         mListDao = db.getRestaurantListDao();
         mRestaurantDao = db.getRestaurantDao();
         mAllLists = mListDao.getAllRestaurantListsWithItems();
+        mExecutor = executor;
     }
 
     // Room executes all queries on a separate thread.
@@ -33,16 +32,26 @@ public class RandomRestaurantRepository {
         return mListDao.getListWithItemsAsync(id);
     }
 
-    public RestaurantListWRestaurants getListWRestaurant(long id) {
-        return mListDao.getListWithItems(id);
+    interface RepositoryCallback<T> {
+        void onComplete(RestaurantListWRestaurants result);
+    }
+
+
+    public void getListWRestaurant(long id,
+                                   final RepositoryCallback<RestaurantListWRestaurants> callback) {
+        mExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                RestaurantListWRestaurants foundList = mListDao.getListWithItems(id);
+                callback.onComplete(foundList);
+            }
+        });
     }
 
     public LiveData<Restaurant> getRestaurant(long id) {
         return mRestaurantDao.getRestaurantById(id);
     }
 
-    // You must call this on a non-UI thread or your app will throw an exception. Room ensures
-    // that you're not doing any long running operations on the main thread, blocking the UI.
     public void insertList(RestaurantList list) {
         AppDatabase.databaseWriteExecutor.execute(() -> {
             mListDao.insert(list);

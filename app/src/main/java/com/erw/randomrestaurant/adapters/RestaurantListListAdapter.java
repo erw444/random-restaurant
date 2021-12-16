@@ -1,6 +1,5 @@
 package com.erw.randomrestaurant.adapters;
 
-import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
@@ -16,17 +15,12 @@ import androidx.recyclerview.widget.ListAdapter;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.erw.randomrestaurant.EditListActivity;
-import com.erw.randomrestaurant.RandomizeAsyncTask;
-import com.erw.randomrestaurant.database.Restaurant;
+import com.erw.randomrestaurant.RandomizeActivity;
 import com.erw.randomrestaurant.domain.ListRecyclerEntity;
 import com.erw.randomrestaurant.R;
 import com.erw.randomrestaurant.RestaurantListViewModel;
 import com.erw.randomrestaurant.holders.ListViewHolder;
 import com.erw.randomrestaurant.holders.MenuViewHolder;
-
-import java.util.List;
-import java.util.Random;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class RestaurantListListAdapter extends ListAdapter<ListRecyclerEntity, RecyclerView.ViewHolder> {
     private final int SHOW_MENU = 1;
@@ -72,9 +66,14 @@ public class RestaurantListListAdapter extends ListAdapter<ListRecyclerEntity, R
                 @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
                 @Override
                 public void onClick(View view) {
-                    ListRecyclerEntity entity = getItem(holder.getAdapterPosition());
-                    new RandomizeAsyncTask((Application) mContext.getApplicationContext(), mListViewModel.getRepository(), entity).execute();
+                    /*ListRecyclerEntity entity = getItem(holder.getAdapterPosition());
+                    new RandomizeAsyncTask((Application) mContext.getApplicationContext(), mListViewModel.getRepository(), entity).execute();*/
 
+                    ListRecyclerEntity entity = getItem(holder.getAdapterPosition());
+
+                    Intent intent = new Intent(view.getContext(), RandomizeActivity.class);
+                    intent.putExtra("listId", entity.getDbId());
+                    view.getContext().startActivity(intent);
                 }
             });
 

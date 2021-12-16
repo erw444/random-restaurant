@@ -20,6 +20,7 @@ public interface RestaurantListDao {
     @Insert
     long insert(RestaurantList RestaurantList);
 
+    @Transaction
     @Query("SELECT * from restaurant_list ORDER BY list_id ASC")
     LiveData<List<RestaurantListWRestaurants>> getAllRestaurantListsWithItems();
 
